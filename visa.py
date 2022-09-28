@@ -341,14 +341,14 @@ class USVisaRescheduler:
                     self.logger.info(f"New date: {date}")
                     self.reschedule(date)
                     if not self._run_forever:
-                        EXIT = True
+                        self._exit = True
                 else:
                     self.logger.info(
                         f"No better date avaliable, currently scheduled for {self._scheduled_date}. Recheck in {self.retry_time}s"
                     )
                     time.sleep(self.retry_time)
 
-                if EXIT:
+                if self._exit:
                     self.logger.info("------------------exit")
                     break
 
