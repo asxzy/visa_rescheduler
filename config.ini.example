@@ -8,7 +8,7 @@ MY_SCHEDULE_DATE = 2024-01-01
 COUNTRY_CODE = en-ca
 SCHEDULE_ID = 99999999
 FACILITY_ID = 80
-; set continue to according to your website language (COUNTRY_CODE) - Case sensitive
+; set continue to according to your website language (COUNTRY_CODE)
 CONTINUE = continue
 ; when set RUN_FOREVER to True, the script will keep trying to rescheduler an earlier date
 RUN_FOREVER = False
@@ -21,6 +21,7 @@ HUB_ADDRESS = http://localhost:9515/wd/hub
 
 [EMAIL]
 ; Get email notification (optional)
+; Your email provider may need extra permission to enable sending email from script
 HOST = 
 PORT = 
 USERNAME = 
