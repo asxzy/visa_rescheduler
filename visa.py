@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 import smtplib
 import time
 import json
@@ -43,9 +41,8 @@ HUB_ADDRESS = config["CHROMEDRIVER"]["HUB_ADDRESS"]
 REGEX_CONTINUE = f"//a[contains(text(),'{config['INFO']['CONTINUE']}')]"
 
 
-# def MY_CONDITION(month, day): return int(month) == 11 and int(day) >= 5
-def MY_CONDITION(month, day):
-    return True  # No custom condition wanted for the new scheduled date
+def check_date_condition(month, day):
+    return (int(month) == 10 and int(day) >= 15) and int(month) not in {9, 10}
 
 
 STEP_TIME = 0.5  # time between steps (interactions with forms): 0.5 seconds
@@ -71,7 +68,7 @@ def send_notification(msg):
             print(response.body)
             print(response.headers)
         except Exception as e:
-            print(e.message)
+            print(e)
 
     if PUSH_TOKEN:
         url = "https://api.pushover.net/1/messages.json"
@@ -252,7 +249,7 @@ def get_available_date(dates):
         date = d.get("date")
         if is_earlier(date) and date != last_seen:
             _, month, day = date.split("-")
-            if MY_CONDITION(month, day):
+            if check_date_condition(month, day):
                 last_seen = date
                 return date
 
