@@ -1,4 +1,4 @@
-[USVISA]
+[INFO]
 ; Account and current appointment info from https://ais.usvisa-info.com
 USERNAME = example@example.com
 PASSWORD = xxxxxxxxxx
@@ -8,6 +8,7 @@ MY_SCHEDULE_DATE = 2024-01-01
 COUNTRY_CODE = es-co
 ; Bogotá
 FACILITY_ID = 25
+CONTINUE = continue
 
 [CHROMEDRIVER]
 ; Details for the script to control Chrome
@@ -17,9 +18,15 @@ HUB_ADDRESS = http://localhost:9515/wd/hub
 
 [PUSHOVER]
 ; Get push notifications via https://pushover.net/ (optional)
-PUSH_TOKEN = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-PUSH_USER = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+PUSH_TOKEN = 
+PUSH_USER = 
 
 [SENDGRID]
 ; Get email notifications via https://sendgrid.com/ (optional)
 SENDGRID_API_KEY = 
+
+[EMAIL]
+HOST = 
+PORT = 
+USERNAME = 
+PASSWORD = 
