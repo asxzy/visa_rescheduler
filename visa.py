@@ -20,12 +20,14 @@ from sendgrid.helpers.mail import Mail
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-USERNAME = config["INFO"]["USERNAME"]
-PASSWORD = config["INFO"]["PASSWORD"]
-SCHEDULE_ID = config["INFO"]["SCHEDULE_ID"]
-MY_SCHEDULE_DATE = config["INFO"]["MY_SCHEDULE_DATE"]
-COUNTRY_CODE = config["INFO"]["COUNTRY_CODE"]
-FACILITY_ID = config["INFO"]["FACILITY_ID"]
+USERNAME = config["SETUP"]["USERNAME"]
+PASSWORD = config["SETUP"]["PASSWORD"]
+SCHEDULE_ID = config["SETUP"]["SCHEDULE_ID"]
+MY_SCHEDULE_DATE = config["SETUP"]["MY_SCHEDULE_DATE"]
+COUNTRY_CODE = config["SETUP"]["COUNTRY_CODE"]
+FACILITY_ID = config["SETUP"]["FACILITY_ID"]
+RUN_FOREVER = config["SETUP"]["RUN_FOREVER"]
+
 
 SENDGRID_API_KEY = config["SENDGRID"]["SENDGRID_API_KEY"]
 PUSH_TOKEN = config["PUSHOVER"]["PUSH_TOKEN"]
@@ -38,7 +40,7 @@ EMAIL_PASSWORD = config["EMAIL"]["PASSWORD"]
 LOCAL_USE = config["CHROMEDRIVER"].getboolean("LOCAL_USE")
 HUB_ADDRESS = config["CHROMEDRIVER"]["HUB_ADDRESS"]
 
-REGEX_CONTINUE = f"//a[contains(text(),'{config['INFO']['CONTINUE']}')]"
+REGEX_CONTINUE = f"//a[contains(text(),'{config['SETUP']['CONTINUE']}')]"
 
 
 def check_date_condition(month, day):
@@ -50,9 +52,18 @@ RETRY_TIME = 60 * 10  # wait time between retries/checks for available dates: 10
 EXCEPTION_TIME = 60 * 30  # wait time when an exception occurs: 30 minutes
 BANNED_COOLDOWN_TIME = 60 * 60  # wait time when temporary banned (empty list): 60 minutes
 
-DATE_URL = f"https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/{SCHEDULE_ID}/appointment/days/{FACILITY_ID}.json?appointments[expedite]=false"
-TIME_URL = f"https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/{SCHEDULE_ID}/appointment/times/{FACILITY_ID}.json?date=%s&appointments[expedite]=false"
+DATE_URL = (
+    f"https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/"
+    f"{SCHEDULE_ID}/appointment/days/{FACILITY_ID}.json?appointments[expedite]=false"
+)
+TIME_URL = (
+    f"https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/"
+    f"{SCHEDULE_ID}/appointment/times/{FACILITY_ID}.json?date=%s&appointments[expedite]=false"
+)
 APPOINTMENT_URL = f"https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/{SCHEDULE_ID}/appointment"
+
+
+# flag to check if exit needed
 EXIT = False
 
 
@@ -181,7 +192,6 @@ def get_time(date):
 
 
 def reschedule(date):
-    global EXIT
     print(f"Starting Reschedule ({date})")
 
     time = get_time(date)
@@ -275,6 +285,8 @@ if __name__ == "__main__":
             if date:
                 print(f"New date: {date}")
                 reschedule(date)
+                if not RUN_FOREVER:
+                    EXIT = True
             else:
                 print(f"No better date avaliable, currently scheduled for {MY_SCHEDULE_DATE}.")
                 time.sleep(RETRY_TIME)

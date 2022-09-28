@@ -1,20 +1,30 @@
-[INFO]
+[SETUP]
 ; Account and current appointment info from https://ais.usvisa-info.com
 USERNAME = example@example.com
 PASSWORD = xxxxxxxxxx
-SCHEDULE_ID = 99999999
 MY_SCHEDULE_DATE = 2024-01-01
-; Spanish - Colombia
-COUNTRY_CODE = es-co
-; Bogotá
-FACILITY_ID = 25
+; You can find these information in your appointment url
+; https://ais.usvisa-info.com/{COUNTRY_CODE}/niv/schedule/{SCHEDULE_ID}/appointment/days/{FACILITY_ID}
+COUNTRY_CODE = en-ca
+SCHEDULE_ID = 99999999
+FACILITY_ID = 80
+; set continue to according to your website language (COUNTRY_CODE) - Case sensitive
 CONTINUE = continue
+; when set RUN_FOREVER to True, the script will keep trying to rescheduler an earlier date
+RUN_FOREVER = False
 
 [CHROMEDRIVER]
 ; Details for the script to control Chrome
 LOCAL_USE = True
 ; Optional: HUB_ADDRESS is mandatory only when LOCAL_USE = False
 HUB_ADDRESS = http://localhost:9515/wd/hub
+
+[EMAIL]
+; Get email notification (optional)
+HOST = 
+PORT = 
+USERNAME = 
+PASSWORD = 
 
 [PUSHOVER]
 ; Get push notifications via https://pushover.net/ (optional)
@@ -24,9 +34,3 @@ PUSH_USER =
 [SENDGRID]
 ; Get email notifications via https://sendgrid.com/ (optional)
 SENDGRID_API_KEY = 
-
-[EMAIL]
-HOST = 
-PORT = 
-USERNAME = 
-PASSWORD = 
